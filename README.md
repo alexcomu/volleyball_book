@@ -76,16 +76,29 @@ Format code:
 make format
 ```
 
-## Example API Call
+## Exercise API CLI
 
 With the app running on localhost:
 
 ```bash
-python3 scripts/call_create_exercise.py
+python3 scripts/exercise_api_cli.py create
 ```
 
-Custom values:
+Create with custom values:
 
 ```bash
-python3 scripts/call_create_exercise.py "Blocking Drill" "Two blockers timing" '["block","timing"]' '["difesa","rigiocata"]'
+python3 scripts/exercise_api_cli.py create \
+  --name "Blocking Drill" \
+  --description "Two blockers timing" \
+  --tags '["block","timing"]' \
+  --categories '["difesa","rigiocata"]'
+```
+
+List/get/update/delete:
+
+```bash
+python3 scripts/exercise_api_cli.py list
+python3 scripts/exercise_api_cli.py get <exercise_id>
+python3 scripts/exercise_api_cli.py update <exercise_id> --name "Updated name"
+python3 scripts/exercise_api_cli.py delete <exercise_id>
 ```
