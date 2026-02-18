@@ -3,12 +3,12 @@
 ## Project
 - Name: `volleyball_book`
 - Type: Python API-only app (FastAPI)
-- Root: `/Users/alexcomunian/Desktop/playground/AI-stuff/volleyball_book`
-- App directory: `/Users/alexcomunian/Desktop/playground/AI-stuff/volleyball_book`
+- Root: `.`
+- App directory: `.`
 
 ## Local Setup
 ```bash
-cd /Users/alexcomunian/Desktop/playground/AI-stuff/volleyball_book
+cd volleyball_book
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -16,7 +16,7 @@ pip install -r requirements.txt
 
 ## Run
 ```bash
-cd /Users/alexcomunian/Desktop/playground/AI-stuff/volleyball_book
+cd volleyball_book
 source .venv/bin/activate
 uvicorn app.main:app --reload
 ```

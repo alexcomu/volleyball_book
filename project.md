@@ -54,7 +54,7 @@
 ## Current Repository Structure
 
 ```text
-/Users/alexcomunian/Desktop/playground/AI-stuff/volleyball_book
+volleyball_book/
   app/
     __init__.py
     main.py

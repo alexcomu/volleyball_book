@@ -9,7 +9,7 @@ Architecture proposal:
 ## Setup
 
 ```bash
-cd /Users/alexcomunian/Desktop/playground/AI-stuff/volleyball_book
+cd volleyball_book
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
@@ -19,7 +19,7 @@ pre-commit install
 ## Run
 
 ```bash
-cd /Users/alexcomunian/Desktop/playground/AI-stuff/volleyball_book
+cd volleyball_book
 source .venv/bin/activate
 uvicorn app.main:app --reload
 ```
