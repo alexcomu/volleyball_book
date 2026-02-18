@@ -6,6 +6,10 @@ Architecture proposal:
 - `docs/architecture-proposal.md`
 - `docs/tasks/TASK-001-create-exercise-api.md`
 
+Environment configuration:
+- `config/development.json`
+- `config/production.json`
+
 ## Setup
 
 ```bash
@@ -31,6 +35,23 @@ Server URL: `http://127.0.0.1:8000`
 - `GET /health`
 - `POST /api/v1/exercises`
 - Swagger UI: `http://127.0.0.1:8000/docs`
+
+## Exercise Categories Configuration
+
+Configured categories are stored in:
+- `config/development.json`
+- `config/production.json`
+
+Environment selection:
+- set `APP_ENV=development` or `APP_ENV=production`
+- default is `development`
+
+Current values:
+- `warmup`
+- `ricezione`
+- `servizio`
+- `rigiocata`
+- `difesa`
 
 ## Coding Standards
 

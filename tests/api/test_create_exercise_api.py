@@ -11,6 +11,8 @@ from app.domain.models.exercise import Exercise
 from app.domain.repositories.exercise_repository import ExerciseRepository
 from app.shared.feature_flags import InMemoryFeatureFlags
 
+ALLOWED_CATEGORIES = {"warmup", "ricezione", "servizio", "rigiocata", "difesa"}
+
 
 @dataclass
 class InMemoryExerciseRepository(ExerciseRepository):
@@ -39,7 +41,10 @@ def _build_request() -> Request:
 
 def test_create_exercise_returns_201_and_body() -> None:
     repository = InMemoryExerciseRepository(saved=[])
-    use_case = CreateExerciseUseCase(repository=repository)
+    use_case = CreateExerciseUseCase(
+        repository=repository,
+        allowed_categories=ALLOWED_CATEGORIES,
+    )
 
     payload = CreateExerciseRequest(
         name="  Serve Receive Drill ",
@@ -74,7 +79,10 @@ def test_create_exercise_with_invalid_payload_raises_validation_error() -> None:
 
 def test_create_exercise_without_tags_stores_empty_tag_list() -> None:
     repository = InMemoryExerciseRepository(saved=[])
-    use_case = CreateExerciseUseCase(repository=repository)
+    use_case = CreateExerciseUseCase(
+        repository=repository,
+        allowed_categories=ALLOWED_CATEGORIES,
+    )
 
     payload = CreateExerciseRequest(
         name="Warmup Drill",
@@ -103,17 +111,35 @@ def test_create_exercise_without_categories_raises_validation_error() -> None:
 
 
 def test_create_exercise_with_invalid_category_raises_validation_error() -> None:
-    with pytest.raises(ValidationError):
-        CreateExerciseRequest(
-            name="Warmup Drill",
-            description="desc",
-            categories=["invalid-category"],
+    repository = InMemoryExerciseRepository(saved=[])
+    use_case = CreateExerciseUseCase(
+        repository=repository,
+        allowed_categories=ALLOWED_CATEGORIES,
+    )
+    payload = CreateExerciseRequest(
+        name="Warmup Drill",
+        description="desc",
+        categories=["invalid-category"],
+    )
+
+    with pytest.raises(HTTPException) as error_info:
+        create_exercise(
+            payload=payload,
+            request=_build_request(),
+            response=Response(),
+            use_case=use_case,
+            feature_flags=InMemoryFeatureFlags({"exercise_create_api_enabled": True}),
         )
+
+    assert error_info.value.status_code == 422
 
 
 def test_create_exercise_with_duplicate_name_returns_409() -> None:
     repository = InMemoryExerciseRepository(saved=[])
-    use_case = CreateExerciseUseCase(repository=repository)
+    use_case = CreateExerciseUseCase(
+        repository=repository,
+        allowed_categories=ALLOWED_CATEGORIES,
+    )
     payload = CreateExerciseRequest(
         name="Serve Receive Drill",
         description="desc",
@@ -142,7 +168,10 @@ def test_create_exercise_with_duplicate_name_returns_409() -> None:
 
 def test_create_exercise_when_flag_disabled_returns_404() -> None:
     repository = InMemoryExerciseRepository(saved=[])
-    use_case = CreateExerciseUseCase(repository=repository)
+    use_case = CreateExerciseUseCase(
+        repository=repository,
+        allowed_categories=ALLOWED_CATEGORIES,
+    )
     payload = CreateExerciseRequest(
         name="Serve Receive Drill",
         description="desc",

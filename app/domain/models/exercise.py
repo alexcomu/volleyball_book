@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-ALLOWED_EXERCISE_CATEGORIES = {
-    "warmup",
-    "ricezione",
-    "servizio",
-    "rigiocata",
-    "difesa",
-}
-
 
 class ExerciseFieldValidationError(ValueError):
     pass
@@ -39,6 +31,7 @@ def normalize_exercise_fields(
     description: str | None,
     tags: list[str] | None,
     categories: list[str] | None,
+    allowed_categories: set[str],
 ) -> NormalizedExerciseFields:
     normalized_name = name.strip()
     if not normalized_name:
@@ -73,7 +66,7 @@ def normalize_exercise_fields(
         category = raw_category.strip().lower()
         if not category:
             raise ExerciseFieldValidationError("Categories cannot be blank.")
-        if category not in ALLOWED_EXERCISE_CATEGORIES:
+        if category not in allowed_categories:
             raise ExerciseFieldValidationError(
                 f"Invalid category '{category}'.",
             )

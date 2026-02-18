@@ -130,7 +130,10 @@ Tag normalization behavior:
 Category behavior:
 - `categories` is mandatory in create payload.
 - exercise must include at least one category.
-- categories are currently hardcoded allowed values:
+- categories are loaded from environment configuration file:
+  - `APP_ENV=development` -> `config/development.json`
+  - `APP_ENV=production` -> `config/production.json`
+- current allowed values:
   - `warmup`
   - `ricezione`
   - `servizio`

@@ -12,6 +12,8 @@ from app.application.use_cases.create_exercise import (
 from app.domain.models.exercise import Exercise
 from app.domain.repositories.exercise_repository import ExerciseRepository
 
+ALLOWED_CATEGORIES = {"warmup", "ricezione", "servizio", "rigiocata", "difesa"}
+
 
 @dataclass
 class InMemoryExerciseRepository(ExerciseRepository):
@@ -28,7 +30,10 @@ class InMemoryExerciseRepository(ExerciseRepository):
 
 def test_create_exercise_use_case_persists_valid_exercise() -> None:
     repository = InMemoryExerciseRepository(saved=[])
-    use_case = CreateExerciseUseCase(repository=repository)
+    use_case = CreateExerciseUseCase(
+        repository=repository,
+        allowed_categories=ALLOWED_CATEGORIES,
+    )
 
     exercise = use_case.execute(
         CreateExerciseCommand(
@@ -62,7 +67,10 @@ def test_create_exercise_use_case_raises_on_duplicate_name() -> None:
         updated_at=now,
     )
     repository = InMemoryExerciseRepository(saved=[existing])
-    use_case = CreateExerciseUseCase(repository=repository)
+    use_case = CreateExerciseUseCase(
+        repository=repository,
+        allowed_categories=ALLOWED_CATEGORIES,
+    )
 
     with pytest.raises(DuplicateExerciseNameError):
         use_case.execute(

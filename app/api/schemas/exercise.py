@@ -2,8 +2,6 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field, field_validator
 
-from app.domain.models.exercise import ALLOWED_EXERCISE_CATEGORIES
-
 
 class CreateExerciseRequest(BaseModel):
     name: str = Field(min_length=1, max_length=120)
@@ -56,8 +54,6 @@ class CreateExerciseRequest(BaseModel):
             category = raw_category.strip().lower()
             if not category:
                 raise ValueError("categories cannot contain blank entries")
-            if category not in ALLOWED_EXERCISE_CATEGORIES:
-                raise ValueError(f"invalid category: {category}")
             if category not in seen_categories:
                 normalized_categories.append(category)
                 seen_categories.add(category)

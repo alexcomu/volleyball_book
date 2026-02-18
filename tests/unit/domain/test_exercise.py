@@ -5,6 +5,8 @@ from app.domain.models.exercise import (
     normalize_exercise_fields,
 )
 
+ALLOWED_CATEGORIES = {"warmup", "ricezione", "servizio", "rigiocata", "difesa"}
+
 
 def test_normalize_exercise_fields_trims_and_deduplicates_tags() -> None:
     normalized = normalize_exercise_fields(
@@ -12,6 +14,7 @@ def test_normalize_exercise_fields_trims_and_deduplicates_tags() -> None:
         description="  Three pass rotation ",
         tags=["Serve", " serve ", "Team"],
         categories=["Warmup", "warmup", "Difesa"],
+        allowed_categories=ALLOWED_CATEGORIES,
     )
 
     assert normalized.name == "Serve Receive Drill"
@@ -27,6 +30,7 @@ def test_normalize_exercise_fields_rejects_blank_name() -> None:
             description="desc",
             tags=["serve"],
             categories=["warmup"],
+            allowed_categories=ALLOWED_CATEGORIES,
         )
 
 
@@ -36,6 +40,7 @@ def test_normalize_exercise_fields_accepts_missing_tags() -> None:
         description="desc",
         tags=None,
         categories=["warmup"],
+        allowed_categories=ALLOWED_CATEGORIES,
     )
 
     assert normalized.tags == []
@@ -48,6 +53,7 @@ def test_normalize_exercise_fields_rejects_missing_categories() -> None:
             description="desc",
             tags=["warmup"],
             categories=None,
+            allowed_categories=ALLOWED_CATEGORIES,
         )
 
 
@@ -58,4 +64,5 @@ def test_normalize_exercise_fields_rejects_invalid_categories() -> None:
             description="desc",
             tags=["warmup"],
             categories=["invalid"],
+            allowed_categories=ALLOWED_CATEGORIES,
         )

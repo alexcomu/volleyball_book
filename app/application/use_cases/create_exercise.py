@@ -21,6 +21,7 @@ class CreateExerciseCommand:
 @dataclass
 class CreateExerciseUseCase:
     repository: ExerciseRepository
+    allowed_categories: set[str]
 
     def execute(self, command: CreateExerciseCommand) -> Exercise:
         normalized = normalize_exercise_fields(
@@ -28,6 +29,7 @@ class CreateExerciseUseCase:
             description=command.description,
             tags=command.tags,
             categories=command.categories,
+            allowed_categories=self.allowed_categories,
         )
         if self.repository.exists_by_name(normalized.name):
             raise DuplicateExerciseNameError(
