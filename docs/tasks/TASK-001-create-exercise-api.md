@@ -46,6 +46,7 @@ Out of scope:
    - array of strings
    - each tag trimmed, 1..40 chars
    - tags unique case-insensitive
+   - tags are always persisted in lowercase
 
 ### Success Response
 - Status: `201 Created`
@@ -113,6 +114,12 @@ On successful create:
 - log event `exercise_created`
 - include `request_id`, `exercise_id`, `route`, `latency_ms`
 
+Tag normalization behavior:
+- `tags` can be omitted in create payload.
+- omitted tags are stored as an empty list.
+- tags are normalized to lowercase before persistence.
+- duplicate tags that differ only by case are deduplicated.
+
 On failures:
 - log stable error event name
 - include `request_id` and structured error metadata (no stack traces in normal validation errors)
@@ -147,10 +154,12 @@ Follow Red-Green-Refactor:
 2. Validation errors return `422` with clear schema details.
 3. Duplicate name returns `409` (if uniqueness enabled in this slice).
 4. Data is persisted in DB with timestamps and active status.
-5. Feature flag controls endpoint availability (`404` when disabled).
-6. Structured logs are emitted for both success and failure paths.
-7. All tests pass and `make check` succeeds.
-8. Code follows clean architecture boundaries and TDD workflow.
+5. Tags are optional and default to an empty list when omitted.
+6. Tags are persisted lowercase and deduplicated case-insensitively.
+7. Feature flag controls endpoint availability (`404` when disabled).
+8. Structured logs are emitted for both success and failure paths.
+9. All tests pass and `make check` succeeds.
+10. Code follows clean architecture boundaries and TDD workflow.
 
 ## Definition of Done
 

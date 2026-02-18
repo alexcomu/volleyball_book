@@ -70,6 +70,25 @@ def test_create_exercise_with_invalid_payload_raises_validation_error() -> None:
         CreateExerciseRequest(name="  ", description="invalid")
 
 
+def test_create_exercise_without_tags_stores_empty_tag_list() -> None:
+    repository = InMemoryExerciseRepository(saved=[])
+    use_case = CreateExerciseUseCase(repository=repository)
+
+    payload = CreateExerciseRequest(
+        name="Warmup Drill",
+        description="No tags provided",
+    )
+    result = create_exercise(
+        payload=payload,
+        request=_build_request(),
+        response=Response(),
+        use_case=use_case,
+        feature_flags=InMemoryFeatureFlags({"exercise_create_api_enabled": True}),
+    )
+
+    assert result.tags == []
+
+
 def test_create_exercise_with_duplicate_name_returns_409() -> None:
     repository = InMemoryExerciseRepository(saved=[])
     use_case = CreateExerciseUseCase(repository=repository)

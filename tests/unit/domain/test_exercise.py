@@ -25,3 +25,13 @@ def test_normalize_exercise_fields_rejects_blank_name() -> None:
             description="desc",
             tags=["serve"],
         )
+
+
+def test_normalize_exercise_fields_accepts_missing_tags() -> None:
+    normalized = normalize_exercise_fields(
+        name="Warmup Drill",
+        description="desc",
+        tags=None,
+    )
+
+    assert normalized.tags == []
