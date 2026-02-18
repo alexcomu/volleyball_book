@@ -50,3 +50,17 @@ Format code:
 ```bash
 make format
 ```
+
+## Example API Call
+
+With the app running on localhost:
+
+```bash
+python3 scripts/call_create_exercise.py
+```
+
+Custom values:
+
+```bash
+python3 scripts/call_create_exercise.py "Blocking Drill" "Two blockers timing" '["block","timing"]'
+```
