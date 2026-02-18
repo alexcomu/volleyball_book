@@ -34,6 +34,10 @@ Server URL: `http://127.0.0.1:8000`
 
 - `GET /health`
 - `POST /api/v1/exercises`
+- `GET /api/v1/exercises`
+- `GET /api/v1/exercises/{id}`
+- `PATCH /api/v1/exercises/{id}`
+- `DELETE /api/v1/exercises/{id}`
 - Swagger UI: `http://127.0.0.1:8000/docs`
 
 ## Exercise Categories Configuration

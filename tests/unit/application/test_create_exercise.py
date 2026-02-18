@@ -19,13 +19,36 @@ ALLOWED_CATEGORIES = {"warmup", "ricezione", "servizio", "rigiocata", "difesa"}
 class InMemoryExerciseRepository(ExerciseRepository):
     saved: list[Exercise]
 
-    def exists_by_name(self, name: str) -> bool:
+    def exists_by_name(self, name: str, exclude_id: str | None = None) -> bool:
         normalized = name.strip().lower()
-        return any(item.name.lower() == normalized for item in self.saved)
+        return any(
+            item.name.lower() == normalized and item.id != exclude_id
+            for item in self.saved
+        )
 
     def create(self, exercise: Exercise) -> Exercise:
         self.saved.append(exercise)
         return exercise
+
+    def list(self, include_inactive: bool = False) -> list[Exercise]:
+        if include_inactive:
+            return self.saved
+        return [item for item in self.saved if item.is_active]
+
+    def get_by_id(
+        self, exercise_id: str, include_inactive: bool = False
+    ) -> Exercise | None:
+        for item in self.saved:
+            if item.id == exercise_id and (include_inactive or item.is_active):
+                return item
+        return None
+
+    def update(self, exercise: Exercise) -> Exercise:
+        for index, existing in enumerate(self.saved):
+            if existing.id == exercise.id:
+                self.saved[index] = exercise
+                return exercise
+        raise AssertionError("Exercise not found in in-memory repository.")
 
 
 def test_create_exercise_use_case_persists_valid_exercise() -> None:

@@ -120,15 +120,15 @@ Include:
 
 ## Task Checklist
 
-- [ ] Add API schemas and routers for list/get/update/delete.
-- [ ] Extend repository port and SQLAlchemy adapter for remaining CRUD operations.
-- [ ] Implement use-cases for list/get/update/delete.
-- [ ] Enforce create-equivalent validation/normalization rules on update.
-- [ ] Implement soft delete with `is_active=false`.
-- [ ] Add feature flags for all new exercise operations.
-- [ ] Add structured logs for new operations.
-- [ ] Add and pass unit/integration/API tests.
-- [ ] Update OpenAPI docs and README endpoint list.
+- [x] Add API schemas and routers for list/get/update/delete.
+- [x] Extend repository port and SQLAlchemy adapter for remaining CRUD operations.
+- [x] Implement use-cases for list/get/update/delete.
+- [x] Enforce create-equivalent validation/normalization rules on update.
+- [x] Implement soft delete with `is_active=false`.
+- [x] Add feature flags for all new exercise operations.
+- [x] Add structured logs for new operations.
+- [x] Add and pass unit/integration/API tests.
+- [x] Update OpenAPI docs and README endpoint list.
 
 ## Acceptance Criteria
 
