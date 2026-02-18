@@ -19,6 +19,12 @@ This folder stores implementation-ready task definitions.
 Commit message example:
 - `[TASK-001] Implement create exercise API`
 
+## Task Checklist Requirement
+
+- Every task document must include a `Task Checklist` section.
+- Checklist items must use markdown checkboxes (`- [ ]`/`- [x]`).
+- Checklist state must be updated during implementation and before task closure.
+
 ## Task Template
 
 Copy the structure below for each new task.

@@ -31,6 +31,9 @@
 - Commit naming convention:
   - Prefix all commit messages with `[TASK-XXX]` where `XXX` is the task id.
   - Example: `[TASK-001] Implement create exercise API`.
+- Task definition requirement:
+  - Every task markdown file must include a `Task Checklist` section with checkboxes.
+  - Checklist state must be maintained as tasks are completed.
 - Feature flags:
   - Incomplete features must be behind flags.
   - Default behavior must be safe when a flag is disabled.

@@ -129,17 +129,17 @@ Follow Red-Green-Refactor:
 6. API test: duplicate name behavior (`409`) if uniqueness is enabled now.
 7. API test: feature flag disabled returns `404`.
 
-## Task Breakdown
+## Task Checklist
 
-1. Add API request/response schemas for exercise creation.
-2. Add domain model + validation helpers for exercise creation.
-3. Add repository interface and implementation.
-4. Add create exercise use-case.
-5. Wire dependency injection in API router.
-6. Add feature flag check for endpoint/use-case access.
-7. Add structured logging for create success/failure.
-8. Add and pass all tests.
-9. Update OpenAPI docs and README endpoint list if needed.
+- [x] Add API request/response schemas for exercise creation.
+- [x] Add domain model + validation helpers for exercise creation.
+- [x] Add repository interface and implementation.
+- [x] Add create exercise use-case.
+- [x] Wire dependency injection in API router.
+- [x] Add feature flag check for endpoint/use-case access.
+- [x] Add structured logging for create success/failure.
+- [x] Add and pass all tests.
+- [x] Update OpenAPI docs and README endpoint list if needed.
 
 ## Acceptance Criteria
 

@@ -33,6 +33,9 @@ uvicorn app.main:app --reload
 - Commit naming convention:
   - Prefix every commit message with `[TASK-XXX]`.
   - Example: `[TASK-001] Implement create exercise API`.
+- Task definition requirement:
+  - Every task document must include a `Task Checklist` section with checkbox items.
+  - Keep checklist status updated as implementation progresses.
 
 ## Testing Policy
 - Use TDD for all new code:
