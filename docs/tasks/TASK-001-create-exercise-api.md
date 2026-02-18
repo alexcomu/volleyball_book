@@ -68,15 +68,37 @@ Out of scope:
 
 ## Architecture Requirements
 
-1. API layer:
-   - Route + HTTP schema handling only.
-2. Application layer:
-   - `create_exercise` use-case orchestrates flow.
-3. Domain layer:
-   - Exercise rules/constraints independent from framework.
-4. Infrastructure layer:
-   - Repository implementation + DB model mapping.
-5. Keep domain free from FastAPI/SQLAlchemy imports.
+Use Hexagonal Architecture (Ports and Adapters):
+
+1. Core (inside hexagon):
+   - Domain + application use-case (`create_exercise`) contain business logic.
+2. Inbound adapter:
+   - FastAPI router translates HTTP input/output to use-case calls.
+3. Outbound port:
+   - `ExerciseRepository` interface defines required persistence behavior.
+4. Outbound adapter:
+   - SQLAlchemy repository implements the port and persists data.
+5. Rule:
+   - Dependencies point inward; core does not import FastAPI/SQLAlchemy.
+
+## Hexagonal Relationship Diagram
+
+```mermaid
+flowchart LR
+    Client["Client / Future React UI"] --> API["Inbound Adapter\nFastAPI Router + Schemas"]
+    API --> Core["Hexagon Core\nUse Case + Domain Rules"]
+    Core --> RepoPort["Outbound Port\nExerciseRepository (interface)"]
+    RepoPort --> InfraRepo["Outbound Adapter\nSqlAlchemyExerciseRepository"]
+    InfraRepo --> DB["Database\nSQLite/PostgreSQL exercises table"]
+
+    API --> Flags["Shared\nFeature Flags Provider"]
+    API --> Obs["Shared\nStructured Logging"]
+```
+
+Static image version:
+- `docs/assets/task-001-hexagonal-architecture.svg`
+
+![Task 001 Hexagonal Architecture](../assets/task-001-hexagonal-architecture.svg)
 
 ## Feature Flag
 
