@@ -11,11 +11,13 @@ def test_normalize_exercise_fields_trims_and_deduplicates_tags() -> None:
         name="  Serve Receive Drill ",
         description="  Three pass rotation ",
         tags=["Serve", " serve ", "Team"],
+        categories=["Warmup", "warmup", "Difesa"],
     )
 
     assert normalized.name == "Serve Receive Drill"
     assert normalized.description == "Three pass rotation"
     assert normalized.tags == ["serve", "team"]
+    assert normalized.categories == ["warmup", "difesa"]
 
 
 def test_normalize_exercise_fields_rejects_blank_name() -> None:
@@ -24,6 +26,7 @@ def test_normalize_exercise_fields_rejects_blank_name() -> None:
             name="   ",
             description="desc",
             tags=["serve"],
+            categories=["warmup"],
         )
 
 
@@ -32,6 +35,27 @@ def test_normalize_exercise_fields_accepts_missing_tags() -> None:
         name="Warmup Drill",
         description="desc",
         tags=None,
+        categories=["warmup"],
     )
 
     assert normalized.tags == []
+
+
+def test_normalize_exercise_fields_rejects_missing_categories() -> None:
+    with pytest.raises(ExerciseFieldValidationError):
+        normalize_exercise_fields(
+            name="Warmup Drill",
+            description="desc",
+            tags=["warmup"],
+            categories=None,
+        )
+
+
+def test_normalize_exercise_fields_rejects_invalid_categories() -> None:
+    with pytest.raises(ExerciseFieldValidationError):
+        normalize_exercise_fields(
+            name="Warmup Drill",
+            description="desc",
+            tags=["warmup"],
+            categories=["invalid"],
+        )

@@ -37,6 +37,7 @@ def create_exercise(
                 name=payload.name,
                 description=payload.description,
                 tags=payload.tags,
+                categories=payload.categories,
             ),
         )
         latency_ms = int((datetime.now(tz=UTC) - started_at).total_seconds() * 1000)
@@ -55,6 +56,7 @@ def create_exercise(
             name=created.name,
             description=created.description,
             tags=created.tags,
+            categories=created.categories,
             is_active=created.is_active,
             created_at=created.created_at,
             updated_at=created.updated_at,

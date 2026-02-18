@@ -35,7 +35,8 @@ Out of scope:
 {
   "name": "Serve receive drill",
   "description": "3-pass serve receive rotation",
-  "tags": ["serve-receive", "team"]
+  "tags": ["serve-receive", "team"],
+  "categories": ["ricezione", "difesa"]
 }
 ```
 
@@ -47,6 +48,11 @@ Out of scope:
    - each tag trimmed, 1..40 chars
    - tags unique case-insensitive
    - tags are always persisted in lowercase
+4. `categories` is required:
+   - array of strings with at least one value
+   - allowed values: `warmup`, `ricezione`, `servizio`, `rigiocata`, `difesa`
+   - categories are persisted in lowercase
+   - categories are deduplicated case-insensitively
 
 ### Success Response
 - Status: `201 Created`
@@ -56,6 +62,7 @@ Out of scope:
   "name": "Serve receive drill",
   "description": "3-pass serve receive rotation",
   "tags": ["serve-receive", "team"],
+  "categories": ["ricezione", "difesa"],
   "is_active": true,
   "created_at": "2026-02-18T18:00:00Z",
   "updated_at": "2026-02-18T18:00:00Z"
@@ -120,6 +127,17 @@ Tag normalization behavior:
 - tags are normalized to lowercase before persistence.
 - duplicate tags that differ only by case are deduplicated.
 
+Category behavior:
+- `categories` is mandatory in create payload.
+- exercise must include at least one category.
+- categories are currently hardcoded allowed values:
+  - `warmup`
+  - `ricezione`
+  - `servizio`
+  - `rigiocata`
+  - `difesa`
+- categories are normalized to lowercase and deduplicated.
+
 On failures:
 - log stable error event name
 - include `request_id` and structured error metadata (no stack traces in normal validation errors)
@@ -147,6 +165,7 @@ Follow Red-Green-Refactor:
 - [x] Add structured logging for create success/failure.
 - [x] Add and pass all tests.
 - [x] Update OpenAPI docs and README endpoint list if needed.
+- [x] Add required multi-category support with fixed allowed values.
 
 ## Acceptance Criteria
 
@@ -156,10 +175,12 @@ Follow Red-Green-Refactor:
 4. Data is persisted in DB with timestamps and active status.
 5. Tags are optional and default to an empty list when omitted.
 6. Tags are persisted lowercase and deduplicated case-insensitively.
-7. Feature flag controls endpoint availability (`404` when disabled).
-8. Structured logs are emitted for both success and failure paths.
-9. All tests pass and `make check` succeeds.
-10. Code follows clean architecture boundaries and TDD workflow.
+7. Categories are mandatory, persisted lowercase, and deduplicated.
+8. Categories accept only: `warmup`, `ricezione`, `servizio`, `rigiocata`, `difesa`.
+9. Feature flag controls endpoint availability (`404` when disabled).
+10. Structured logs are emitted for both success and failure paths.
+11. All tests pass and `make check` succeeds.
+12. Code follows clean architecture boundaries and TDD workflow.
 
 ## Definition of Done
 

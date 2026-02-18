@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+ALLOWED_EXERCISE_CATEGORIES = {
+    "warmup",
+    "ricezione",
+    "servizio",
+    "rigiocata",
+    "difesa",
+}
+
 
 class ExerciseFieldValidationError(ValueError):
     pass
@@ -12,6 +20,7 @@ class Exercise:
     name: str
     description: str | None
     tags: list[str]
+    categories: list[str]
     is_active: bool
     created_at: datetime
     updated_at: datetime
@@ -22,12 +31,14 @@ class NormalizedExerciseFields:
     name: str
     description: str | None
     tags: list[str]
+    categories: list[str]
 
 
 def normalize_exercise_fields(
     name: str,
     description: str | None,
     tags: list[str] | None,
+    categories: list[str] | None,
 ) -> NormalizedExerciseFields:
     normalized_name = name.strip()
     if not normalized_name:
@@ -56,8 +67,26 @@ def normalize_exercise_fields(
             normalized_tags.append(tag)
             seen_tags.add(tag)
 
+    normalized_categories: list[str] = []
+    seen_categories: set[str] = set()
+    for raw_category in categories or []:
+        category = raw_category.strip().lower()
+        if not category:
+            raise ExerciseFieldValidationError("Categories cannot be blank.")
+        if category not in ALLOWED_EXERCISE_CATEGORIES:
+            raise ExerciseFieldValidationError(
+                f"Invalid category '{category}'.",
+            )
+        if category not in seen_categories:
+            normalized_categories.append(category)
+            seen_categories.add(category)
+
+    if not normalized_categories:
+        raise ExerciseFieldValidationError("At least one category is required.")
+
     return NormalizedExerciseFields(
         name=normalized_name,
         description=normalized_description,
         tags=normalized_tags,
+        categories=normalized_categories,
     )

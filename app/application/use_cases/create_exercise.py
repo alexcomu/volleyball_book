@@ -15,6 +15,7 @@ class CreateExerciseCommand:
     name: str
     description: str | None
     tags: list[str] | None
+    categories: list[str] | None
 
 
 @dataclass
@@ -26,6 +27,7 @@ class CreateExerciseUseCase:
             name=command.name,
             description=command.description,
             tags=command.tags,
+            categories=command.categories,
         )
         if self.repository.exists_by_name(normalized.name):
             raise DuplicateExerciseNameError(
@@ -38,6 +40,7 @@ class CreateExerciseUseCase:
             name=normalized.name,
             description=normalized.description,
             tags=normalized.tags,
+            categories=normalized.categories,
             is_active=True,
             created_at=now,
             updated_at=now,

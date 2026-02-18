@@ -28,6 +28,7 @@ def test_sqlalchemy_exercise_repository_persists_exercise() -> None:
             name="Serve Receive Drill",
             description="desc",
             tags=["serve", "team"],
+            categories=["ricezione", "difesa"],
             is_active=True,
             created_at=now,
             updated_at=now,
@@ -42,4 +43,5 @@ def test_sqlalchemy_exercise_repository_persists_exercise() -> None:
 
     assert persisted.name == "Serve Receive Drill"
     assert persisted.tags == ["serve", "team"]
+    assert persisted.categories == ["ricezione", "difesa"]
     assert persisted.is_active is True

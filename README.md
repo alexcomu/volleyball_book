@@ -62,5 +62,5 @@ python3 scripts/call_create_exercise.py
 Custom values:
 
 ```bash
-python3 scripts/call_create_exercise.py "Blocking Drill" "Two blockers timing" '["block","timing"]'
+python3 scripts/call_create_exercise.py "Blocking Drill" "Two blockers timing" '["block","timing"]' '["difesa","rigiocata"]'
 ```

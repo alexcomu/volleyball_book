@@ -45,6 +45,7 @@ def test_create_exercise_returns_201_and_body() -> None:
         name="  Serve Receive Drill ",
         description="Three pass receive rotation",
         tags=["Serve", " serve ", "Team"],
+        categories=["Warmup", "warmup", "Difesa"],
     )
     response = Response()
     result = create_exercise(
@@ -58,6 +59,7 @@ def test_create_exercise_returns_201_and_body() -> None:
     assert result.name == "Serve Receive Drill"
     assert result.description == "Three pass receive rotation"
     assert result.tags == ["serve", "team"]
+    assert result.categories == ["warmup", "difesa"]
     assert result.is_active is True
     assert result.id
     assert result.created_at
@@ -67,7 +69,7 @@ def test_create_exercise_returns_201_and_body() -> None:
 
 def test_create_exercise_with_invalid_payload_raises_validation_error() -> None:
     with pytest.raises(ValidationError):
-        CreateExerciseRequest(name="  ", description="invalid")
+        CreateExerciseRequest(name="  ", description="invalid", categories=["warmup"])
 
 
 def test_create_exercise_without_tags_stores_empty_tag_list() -> None:
@@ -77,6 +79,7 @@ def test_create_exercise_without_tags_stores_empty_tag_list() -> None:
     payload = CreateExerciseRequest(
         name="Warmup Drill",
         description="No tags provided",
+        categories=["warmup"],
     )
     result = create_exercise(
         payload=payload,
@@ -87,6 +90,25 @@ def test_create_exercise_without_tags_stores_empty_tag_list() -> None:
     )
 
     assert result.tags == []
+    assert result.categories == ["warmup"]
+
+
+def test_create_exercise_without_categories_raises_validation_error() -> None:
+    with pytest.raises(ValidationError):
+        CreateExerciseRequest(
+            name="Warmup Drill",
+            description="desc",
+            categories=[],
+        )
+
+
+def test_create_exercise_with_invalid_category_raises_validation_error() -> None:
+    with pytest.raises(ValidationError):
+        CreateExerciseRequest(
+            name="Warmup Drill",
+            description="desc",
+            categories=["invalid-category"],
+        )
 
 
 def test_create_exercise_with_duplicate_name_returns_409() -> None:
@@ -96,6 +118,7 @@ def test_create_exercise_with_duplicate_name_returns_409() -> None:
         name="Serve Receive Drill",
         description="desc",
         tags=["serve"],
+        categories=["ricezione"],
     )
     create_exercise(
         payload=payload,
@@ -120,7 +143,11 @@ def test_create_exercise_with_duplicate_name_returns_409() -> None:
 def test_create_exercise_when_flag_disabled_returns_404() -> None:
     repository = InMemoryExerciseRepository(saved=[])
     use_case = CreateExerciseUseCase(repository=repository)
-    payload = CreateExerciseRequest(name="Serve Receive Drill", description="desc")
+    payload = CreateExerciseRequest(
+        name="Serve Receive Drill",
+        description="desc",
+        categories=["servizio"],
+    )
 
     with pytest.raises(HTTPException) as error_info:
         create_exercise(

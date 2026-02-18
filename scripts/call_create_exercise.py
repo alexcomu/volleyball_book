@@ -14,12 +14,15 @@ def main() -> int:
     name = sys.argv[1] if len(sys.argv) > 1 else "Serve Receive Drill"
     description = sys.argv[2] if len(sys.argv) > 2 else "Three pass receive rotation"
     tags_arg = sys.argv[3] if len(sys.argv) > 3 else '["serve-receive","team"]'
+    categories_arg = sys.argv[4] if len(sys.argv) > 4 else '["ricezione","difesa"]'
     tags = json.loads(tags_arg)
+    categories = json.loads(categories_arg)
 
     payload = {
         "name": name,
         "description": description,
         "tags": tags,
+        "categories": categories,
     }
     body = json.dumps(payload).encode("utf-8")
 

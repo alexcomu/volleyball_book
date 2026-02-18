@@ -35,12 +35,14 @@ def test_create_exercise_use_case_persists_valid_exercise() -> None:
             name="Serve Receive Drill",
             description="Three pass rotation",
             tags=["serve", "team"],
+            categories=["Ricezione", "ricezione", "Difesa"],
         ),
     )
 
     assert exercise.name == "Serve Receive Drill"
     assert exercise.description == "Three pass rotation"
     assert exercise.tags == ["serve", "team"]
+    assert exercise.categories == ["ricezione", "difesa"]
     assert len(repository.saved) == 1
     assert UUID(exercise.id)
     assert isinstance(exercise.created_at, datetime)
@@ -54,6 +56,7 @@ def test_create_exercise_use_case_raises_on_duplicate_name() -> None:
         name="Serve Receive Drill",
         description="desc",
         tags=["serve"],
+        categories=["ricezione"],
         is_active=True,
         created_at=now,
         updated_at=now,
@@ -67,5 +70,6 @@ def test_create_exercise_use_case_raises_on_duplicate_name() -> None:
                 name=" Serve Receive Drill ",
                 description="another",
                 tags=[],
+                categories=["warmup"],
             ),
         )
