@@ -2,6 +2,9 @@
 
 Minimal API-only Python app built with FastAPI.
 
+Architecture proposal:
+- `docs/architecture-proposal.md`
+
 ## Setup
 
 ```bash
