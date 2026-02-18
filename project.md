@@ -28,6 +28,9 @@
 - API versioning: all business endpoints under `/api/v1`.
 - Trunk-based development: small, frequent merges to `main`.
 - Continuous delivery mindset: `main` must stay production-ready.
+- Commit naming convention:
+  - Prefix all commit messages with `[TASK-XXX]` where `XXX` is the task id.
+  - Example: `[TASK-001] Implement create exercise API`.
 - Feature flags:
   - Incomplete features must be behind flags.
   - Default behavior must be safe when a flag is disabled.

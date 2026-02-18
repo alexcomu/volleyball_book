@@ -12,8 +12,12 @@ This folder stores implementation-ready task definitions.
 1. Define scope and acceptance criteria before coding.
 2. Implement with TDD (Red-Green-Refactor).
 3. Keep commits production-ready (trunk-based).
-4. Use feature flags for incomplete functionality.
-5. Keep observability requirements explicit.
+4. Use commit message prefix `[TASK-XXX]` for task-related commits.
+5. Use feature flags for incomplete functionality.
+6. Keep observability requirements explicit.
+
+Commit message example:
+- `[TASK-001] Implement create exercise API`
 
 ## Task Template
 
